@@ -1,0 +1,24 @@
+name: MacRunara Test
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [macos, arm64, macrunara]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: MacRunara Setup
+        uses: macrunara/setup-action@v1
+        with:
+          installation-id: ${{ secrets.MACRUNARA_INSTALLATION_ID }}
+          region: auto
+
+      - name: Show Environment
+        run: |
+          echo "OS: $(uname -s) $(uname -m)"
+          echo "Runner: $RUNNER_NAME ($RUNNER_OS/$RUNNER_ARCH)"
+          xcodebuild -version
